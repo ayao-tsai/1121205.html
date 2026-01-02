@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>循跡文旅 住宿叮嚀</title>
+    <title>循跡文旅 住宿叮嚀 & 美食指南</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap">
     <style>
@@ -17,9 +16,26 @@
             --title-coffee: #6d4c41;
             --accent-orange: #d8896a;
             --highlight-yellow: #fff8e1;
-            /* 新增品牌色 */
             --fb-blue: #1877F2;
             --line-green: #06c755;
+            --btn-hover: #c67657;
+            
+            /* 美食分類顏色 */
+            --color-seafood: #e1f5fe; /* 淺藍 */
+            --border-seafood: #81d4fa;
+            --text-seafood: #0277bd;
+            
+            --color-casual: #f1f8e9; /* 淺綠 */
+            --border-casual: #a5d6a7;
+            --text-casual: #33691e;
+            
+            --color-sweets: #fce4ec; /* 淺粉 */
+            --border-sweets: #f48fb1;
+            --text-sweets: #ad1457;
+            
+            --color-snacks: #fff3e0; /* 淺橘 */
+            --border-snacks: #ffcc80;
+            --text-snacks: #e65100;
         }
 
         body {
@@ -34,7 +50,7 @@
 
         .cafe-card {
             background-color: var(--card-white);
-            box-shadow: 0 10px 30px rgba(109, 76, 65, 0.08); /* 帶有淡淡咖啡色的陰影 */
+            box-shadow: 0 10px 30px rgba(109, 76, 65, 0.08);
             border-radius: 20px;
             border: 1px solid var(--border-tan);
             position: relative;
@@ -56,6 +72,7 @@
                 var(--bg-cream) 10px,
                 var(--bg-cream) 20px
             );
+            z-index: 10;
         }
 
         .section-title {
@@ -100,7 +117,7 @@
         .qr-frame {
             padding: 8px;
             background: #fff;
-            border: 2px solid var(--border-tan); /* 加粗邊框以便 hover 變色更明顯 */
+            border: 2px solid var(--border-tan);
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             border-radius: 12px;
             transition: all 0.3s ease;
@@ -112,7 +129,7 @@
 
         .qr-placeholder img {
             display: block;
-            width: 120px; /* 稍微加大 QR code 區域 */
+            width: 120px;
             height: 120px;
             object-fit: cover;
             border-radius: 4px;
@@ -130,17 +147,69 @@
             transform: scale(0.95);
         }
 
-        /* 按鈕基礎樣式優化 */
         .btn-primary {
             background-color: var(--accent-orange);
             color: white;
             transition: background-color 0.3s, transform 0.1s;
         }
         .btn-primary:hover {
-            background-color: #c67657;
+            background-color: var(--btn-hover);
         }
         .btn-primary:active {
             transform: scale(0.98);
+        }
+
+        /* 美食區塊樣式優化 */
+        .food-filter-btn {
+            border: 1px solid transparent;
+            color: var(--text-brown);
+            background: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            opacity: 0.7;
+        }
+        
+        /* 各分類按鈕顏色 */
+        .btn-seafood { background-color: var(--color-seafood); color: var(--text-seafood); border-color: var(--border-seafood); }
+        .btn-casual { background-color: var(--color-casual); color: var(--text-casual); border-color: var(--border-casual); }
+        .btn-sweets { background-color: var(--color-sweets); color: var(--text-sweets); border-color: var(--border-sweets); }
+        .btn-snacks { background-color: var(--color-snacks); color: var(--text-snacks); border-color: var(--border-snacks); }
+
+        .food-filter-btn.active {
+            opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+        
+        .food-filter-btn:hover:not(.active) {
+            opacity: 0.9;
+        }
+
+        .food-item {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+        }
+        .food-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* 各分類卡片顏色 */
+        .card-seafood { background-color: var(--color-seafood); border-color: var(--border-seafood); }
+        .card-casual { background-color: var(--color-casual); border-color: var(--border-casual); }
+        .card-sweets { background-color: var(--color-sweets); border-color: var(--border-sweets); }
+        .card-snacks { background-color: var(--color-snacks); border-color: var(--border-snacks); }
+
+        .food-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background-color: rgba(255,255,255,0.6); /* 半透明白底 */
+        }
+        .food-details.open {
+            max-height: 500px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
         }
 
         @media (max-width: 768px) {
@@ -148,7 +217,7 @@
                 font-size: 1.25rem;
             }
             .cafe-card {
-                border-radius: 0; /* 手機版貼邊 */
+                border-radius: 0;
                 border-left: none;
                 border-right: none;
                 box-shadow: none;
@@ -164,7 +233,7 @@
             <p class="text-xs text-[#a1887f] tracking-[0.2em] uppercase mb-2 font-bold">TRACöVER INN</p>
             <h1 class="text-4xl md:text-5xl font-bold text-[#6d4c41] leading-tight mb-2 tracking-wide">循跡文旅</h1>
             <div class="h-px w-24 bg-[#e0d9c5] mx-auto my-3"></div>
-            <h2 class="text-xl font-normal text-[#8d6e63]">住宿提醒 & 貼心指南</h2>
+            <h2 class="text-xl font-normal text-[#8d6e63]">住宿提醒 & 美食指南</h2>
         </header>
 
         <div class="space-y-12">
@@ -212,7 +281,7 @@
             <section>
                 <h3 class="section-title mb-5">Wi-Fi 密碼・Passcode</h3>
                 <div class="relative overflow-hidden p-6 bg-[#fff8e1] rounded-2xl border border-[#f0e0c0]">
-                    <!-- 背景裝飾 (改用 SVG 修復破圖問題) -->
+                    <!-- 背景裝飾 SVG -->
                     <div class="absolute right-0 top-0 -mt-10 -mr-10 opacity-10 pointer-events-none">
                          <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 19.5C12 19.5 12 19.5 12 19.5M12 19.5C12.2761 19.5 12.5 19.2761 12.5 19C12.5 18.7239 12.2761 18.5 12 18.5C11.7239 18.5 11.5 18.7239 11.5 19C11.5 19.2761 11.7239 19.5 12 19.5ZM17.6569 13.8431C16.1566 12.3429 14.1216 11.5 12 11.5C9.87843 11.5 7.84344 12.3429 6.34315 13.8431M20.4853 11.0147C18.2346 8.76403 15.1819 7.5 12 7.5C8.81812 7.5 5.76536 8.76403 3.51472 11.0147M23.3137 8.18629C20.304 5.17662 16.2234 3.5 12 3.5C7.77656 3.5 3.696 5.17662 0.686292 8.18629" stroke="#d8896a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -303,27 +372,561 @@
                 </div>
             </section>
 
-            <!-- Footer: 聯絡我們 (已更新品牌色與移除 QR 字樣) -->
+            <!-- Section 6: 在地美食 (新增區塊) -->
+            <section id="foodSection">
+                <h3 class="section-title mb-5">在地探味・Local Food</h3>
+                <p class="text-[#5d4037] mb-4 text-sm">
+                    循跡私房推薦！點擊 <svg class="w-4 h-4 inline-block text-[#d8896a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> 可導航，點擊卡片可查看筆記。
+                </p>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap gap-2 mb-6" id="foodTabs">
+                    <!-- 移除全部，調整配色 -->
+                    <button class="food-filter-btn btn-seafood active px-4 py-1.5 rounded-full text-sm font-medium" data-cat="seafood">海鮮</button>
+                    <button class="food-filter-btn btn-casual px-4 py-1.5 rounded-full text-sm font-medium" data-cat="casual">簡餐</button>
+                    <button class="food-filter-btn btn-sweets px-4 py-1.5 rounded-full text-sm font-medium" data-cat="sweets">甜食</button>
+                    <button class="food-filter-btn btn-snacks px-4 py-1.5 rounded-full text-sm font-medium" data-cat="snacks">小吃</button>
+                </div>
+
+                <!-- Food Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="foodGrid">
+                    
+                    <!-- 海鮮 -->
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">阿秋鮮魚湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/uNdPepefEdJdg7M17?g_st=com.google.maps.preview.copy" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="mb-2"><span class="bg-white text-[#0277bd] px-2 py-0.5 rounded text-xs border border-[#81d4fa]">探索筆記</span></p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">秋雄鮮魚小吃</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/RsKMYb" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#0277bd] mb-2 font-bold">📞 0975 518 186</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">阿慶鮮魚湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/P4M1VdnNLnhXqzNo9" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">漁農海產店</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/QTw1GZ9567SLthzd7?g_st=il" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#0277bd] mb-2 font-bold">📞 0921 696 227</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">大眾海產</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/7ZsoHK" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#0277bd] mb-2 font-bold">📞 08 832 9675</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">愛嬌姨海產粥 飯湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/TJueuARFF8zU9sJY8?g_st=ipc" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">盛壽司</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/uo89LjKuthgQtUL66?g_st=com.google.maps.preview.copy" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 簡餐 -->
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">安好食居</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/GUVXXPwgrKZPSzhU9" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">甲板上The Deck景觀餐廳</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/vDjeZWYk3gt2Lq8v5" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">卡莎CASA</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/VLEavhvSzNPgmncS7" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">曉樂天麵食</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/kpkYeeTuc8qQceYa7" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 甜食 -->
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">佳吉碳烤饅頭</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/RxaKThSLfugsCVQg9" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">阿鴻豆漿碳烤饅頭</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/8APCiu" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 08 832 7910</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">御木軒冰品專賣店</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/MZoZuX" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 0972 011 002</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">樹仔剉冰</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/MQk51J" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 08 832 1205</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">東港正忠豆花</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/A1zrC7" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 0922 255 495</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">冰の家</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/suYpTK" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 08 832 6942</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">古早味白糖炸</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/xjkjAE" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#ad1457] mb-2 font-bold">📞 0921 584 737</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">東港可麗餅</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/whlrNola18et43r66" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 小吃 -->
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">神農宮阿珠飯湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/RsLk9s" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 0938 060 597</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">陳記肉粿-虱目魚飯湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/NEkZDo" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 0906 297 262</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">林記肉粿</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/MzHcah" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 08 835 1367</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">東港蔡沙蝦肉丸</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/SwRSWb" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 08 835 0069</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">東港正宗肉丸</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/VzBgHH" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 08 832 5238</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">瑞字號旗魚黑輪</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/2smVhN" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 0986 686 077</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">鎮海宮臭豆腐</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/XTi1dN" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">東港阿鴻蔥油餅水煎包</div>
+                            <div class="flex gap-2">
+                                <a href="https://g.co/kgs/ZxVfvT" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="font-mono text-[#e65100] mb-2 font-bold">📞 0928 782 002</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">阿琴小籠湯包</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/K4ijiur18GES15Q19" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">一品香塩酥雞</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/866ySmtorUsypfxd9" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Footer: 聯絡我們 -->
             <section class="text-center pt-10 border-t-2 border-dashed border-[#e0d9c5] mt-8">
                 <h3 class="text-xl font-bold text-[#6d4c41] mb-6">聯絡與追蹤我們</h3>
                 
                 <div class="flex justify-center gap-8 md:gap-16">
-                    <!-- FB (使用 FB 藍色) -->
+                    <!-- FB -->
                     <div class="flex flex-col items-center group cursor-pointer">
                         <a href="https://www.facebook.com/share/1AZPxGJtd7/?mibextid=wwXIfr" target="_blank" class="qr-frame group-hover:border-[#1877F2]">
                             <div class="qr-placeholder">
-                                <!-- 替換為藍色背景，無 QR 字樣的佔位圖 -->
                                 <img src="https://placehold.co/150x150/1877F2/ffffff?text=FB&font=roboto" alt="循跡文旅臉書粉絲專頁" onerror="this.src='https://placehold.co/150x150/eee/999?text=Image+Error'">
                             </div>
                         </a>
                         <p class="text-sm font-medium text-[#8d6e63] mt-3 group-hover:text-[#1877F2] transition-colors">循跡臉書粉專</p>
                     </div>
 
-                    <!-- LINE (使用 LINE 綠色) -->
+                    <!-- LINE -->
                     <div class="flex flex-col items-center group cursor-pointer">
                         <a href="https://lin.ee/tEn5MXD" target="_blank" class="qr-frame group-hover:border-[#06c755]">
                             <div class="qr-placeholder">
-                                <!-- 替換為綠色背景，無 QR 字樣的佔位圖 -->
                                 <img src="https://placehold.co/150x150/06c755/ffffff?text=LINE&font=roboto" alt="循跡文旅官方 LINE" onerror="this.src='https://placehold.co/150x150/eee/999?text=Image+Error'">
                             </div>
                         </a>
@@ -339,16 +942,15 @@
     </div>
     
     <script>
+        // Wi-Fi 複製功能
         document.getElementById('copyButton').addEventListener('click', function() {
             var passwordText = document.getElementById('wifiPassword').innerText;
             var copyMessage = document.getElementById('copyMessage');
             var btn = this;
             
-            // 嘗試使用現代 API
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(passwordText).then(onCopySuccess, onCopyFallback);
             } else {
-                // 回退機制 (Legacy)
                 onCopyFallback(passwordText);
             }
 
@@ -393,8 +995,50 @@
                 }, 3000);
             }
         });
+
+        // 美食分類篩選功能
+        const filterBtns = document.querySelectorAll('.food-filter-btn');
+        const foodItems = document.querySelectorAll('.food-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有按鈕的 active 狀態
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // 為點擊的按鈕加上 active
+                btn.classList.add('active');
+
+                const category = btn.dataset.cat;
+
+                foodItems.forEach(item => {
+                    // 移除全部的邏輯，這裡必須完全匹配
+                    if (item.dataset.cat === category) {
+                        item.style.display = 'block';
+                        // 加入動畫效果
+                        item.style.opacity = '0';
+                        setTimeout(() => item.style.opacity = '1', 50);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 美食詳情展開收合功能
+        function toggleDetails(element) {
+            const detailsDiv = element.querySelector('.food-details');
+            // 修改選擇器，使用新增的 toggle-icon class，避免 Tailwind 特殊符號問題
+            const iconDiv = element.querySelector('.toggle-icon');
+            const arrowIcon = iconDiv ? iconDiv.querySelector('svg') : null;
+            
+            if (detailsDiv.classList.contains('open')) {
+                detailsDiv.classList.remove('open');
+                if(arrowIcon) arrowIcon.style.transform = 'rotate(0deg)';
+            } else {
+                detailsDiv.classList.add('open');
+                if(arrowIcon) arrowIcon.style.transform = 'rotate(180deg)';
+            }
+        }
     </script>
 
 </body>
 </html>
-
