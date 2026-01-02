@@ -36,6 +36,10 @@
             --color-snacks: #fff3e0; /* 淺橘 */
             --border-snacks: #ffcc80;
             --text-snacks: #e65100;
+
+            --color-coffee: #efebe9; /* 淺咖啡 - 新增類別 */
+            --border-coffee: #d7ccc8;
+            --text-coffee: #5d4037;
         }
 
         body {
@@ -174,6 +178,7 @@
         .btn-casual { background-color: var(--color-casual); color: var(--text-casual); border-color: var(--border-casual); }
         .btn-sweets { background-color: var(--color-sweets); color: var(--text-sweets); border-color: var(--border-sweets); }
         .btn-snacks { background-color: var(--color-snacks); color: var(--text-snacks); border-color: var(--border-snacks); }
+        .btn-coffee { background-color: var(--color-coffee); color: var(--text-coffee); border-color: var(--border-coffee); }
 
         .food-filter-btn.active {
             opacity: 1;
@@ -200,6 +205,7 @@
         .card-casual { background-color: var(--color-casual); border-color: var(--border-casual); }
         .card-sweets { background-color: var(--color-sweets); border-color: var(--border-sweets); }
         .card-snacks { background-color: var(--color-snacks); border-color: var(--border-snacks); }
+        .card-coffee { background-color: var(--color-coffee); border-color: var(--border-coffee); }
 
         .food-details {
             max-height: 0;
@@ -372,7 +378,7 @@
                 </div>
             </section>
 
-            <!-- Section 6: 在地美食 (新增區塊) -->
+            <!-- Section 6: 在地美食 -->
             <section id="foodSection">
                 <h3 class="section-title mb-5">在地探味・Local Food</h3>
                 <p class="text-[#5d4037] mb-4 text-sm">
@@ -381,17 +387,17 @@
 
                 <!-- Filter Tabs -->
                 <div class="flex flex-wrap gap-2 mb-6" id="foodTabs">
-                    <!-- 移除全部，調整配色 -->
                     <button class="food-filter-btn btn-seafood active px-4 py-1.5 rounded-full text-sm font-medium" data-cat="seafood">海鮮</button>
                     <button class="food-filter-btn btn-casual px-4 py-1.5 rounded-full text-sm font-medium" data-cat="casual">簡餐</button>
                     <button class="food-filter-btn btn-sweets px-4 py-1.5 rounded-full text-sm font-medium" data-cat="sweets">甜食</button>
                     <button class="food-filter-btn btn-snacks px-4 py-1.5 rounded-full text-sm font-medium" data-cat="snacks">小吃</button>
+                    <button class="food-filter-btn btn-coffee px-4 py-1.5 rounded-full text-sm font-medium" data-cat="coffee">咖啡廳</button>
                 </div>
 
                 <!-- Food Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="foodGrid">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start" id="foodGrid">
                     
-                    <!-- 海鮮 -->
+                    <!-- 海鮮 (5 items) -->
                     <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
                         <div class="p-4 flex justify-between items-center">
                             <div class="font-bold text-[#6d4c41]">阿秋鮮魚湯</div>
@@ -481,41 +487,7 @@
                         </div>
                     </div>
 
-                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
-                        <div class="p-4 flex justify-between items-center">
-                            <div class="font-bold text-[#6d4c41]">愛嬌姨海產粥 飯湯</div>
-                            <div class="flex gap-2">
-                                <a href="https://maps.app.goo.gl/TJueuARFF8zU9sJY8?g_st=ipc" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                </a>
-                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
-                            </div>
-                        </div>
-                        <div class="food-details px-4 text-sm text-[#5d4037]">
-                            <div class="py-3">
-                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="food-item card-seafood rounded-xl overflow-hidden cursor-pointer" data-cat="seafood" onclick="toggleDetails(this)">
-                        <div class="p-4 flex justify-between items-center">
-                            <div class="font-bold text-[#6d4c41]">盛壽司</div>
-                            <div class="flex gap-2">
-                                <a href="https://maps.app.goo.gl/uo89LjKuthgQtUL66?g_st=com.google.maps.preview.copy" target="_blank" class="text-[#0277bd] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                </a>
-                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
-                            </div>
-                        </div>
-                        <div class="food-details px-4 text-sm text-[#5d4037]">
-                            <div class="py-3">
-                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 簡餐 -->
+                    <!-- 簡餐 (9 items) -->
                     <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
                         <div class="p-4 flex justify-between items-center">
                             <div class="font-bold text-[#6d4c41]">安好食居</div>
@@ -584,7 +556,92 @@
                         </div>
                     </div>
 
-                    <!-- 甜食 -->
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">盛壽司</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/uo89LjKuthgQtUL66?g_st=com.google.maps.preview.copy" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">靜心廬</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/aylR12OkP6TDnjGvx" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">ONEPIZZA 灣披薩</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/rDVTNZnr1gKflOBUD" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">波希塔諾</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/4pBhwBdDE0jkfWqZM" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-casual rounded-xl overflow-hidden cursor-pointer" data-cat="casual" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">泰禾春</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/9guvnygTKkDQVVfWI" target="_blank" class="text-[#33691e] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 甜食 (8 items) -->
                     <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
                         <div class="p-4 flex justify-between items-center">
                             <div class="font-bold text-[#6d4c41]">佳吉碳烤饅頭</div>
@@ -658,9 +715,9 @@
 
                     <div class="food-item card-sweets rounded-xl overflow-hidden cursor-pointer" data-cat="sweets" onclick="toggleDetails(this)" style="display:none;">
                         <div class="p-4 flex justify-between items-center">
-                            <div class="font-bold text-[#6d4c41]">東港正忠豆花</div>
+                            <div class="font-bold text-[#6d4c41]">魚有豆花（正忠豆花）</div>
                             <div class="flex gap-2">
-                                <a href="https://g.co/kgs/A1zrC7" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                <a href="https://share.google/Et8fXm7Wdqc3wPCjW" target="_blank" class="text-[#ad1457] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 </a>
                                 <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
@@ -727,7 +784,7 @@
                         </div>
                     </div>
 
-                    <!-- 小吃 -->
+                    <!-- 小吃 (11 items) -->
                     <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
                         <div class="p-4 flex justify-between items-center">
                             <div class="font-bold text-[#6d4c41]">神農宮阿珠飯湯</div>
@@ -741,6 +798,23 @@
                         <div class="food-details px-4 text-sm text-[#5d4037]">
                             <div class="py-3">
                                 <p class="font-mono text-[#e65100] mb-2 font-bold">📞 0938 060 597</p>
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-snacks rounded-xl overflow-hidden cursor-pointer" data-cat="snacks" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">愛嬌姨海產粥 飯湯</div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.app.goo.gl/TJueuARFF8zU9sJY8?g_st=ipc" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
                                 <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
                             </div>
                         </div>
@@ -893,6 +967,75 @@
                             <div class="font-bold text-[#6d4c41]">一品香塩酥雞</div>
                             <div class="flex gap-2">
                                 <a href="https://maps.app.goo.gl/866ySmtorUsypfxd9" target="_blank" class="text-[#e65100] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 咖啡廳 (4 items) -->
+                    <div class="food-item card-coffee rounded-xl overflow-hidden cursor-pointer" data-cat="coffee" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">海上教堂咖啡</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/CMHUZRUYnLIqGmDpy" target="_blank" class="text-[#5d4037] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-coffee rounded-xl overflow-hidden cursor-pointer" data-cat="coffee" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">漂浮綠洲咖啡</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/oFTTI4O0pf5vQWpue" target="_blank" class="text-[#5d4037] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-coffee rounded-xl overflow-hidden cursor-pointer" data-cat="coffee" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">風帆咖啡</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/HVv03vsqRBNSfYcTO" target="_blank" class="text-[#5d4037] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </a>
+                                <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="food-details px-4 text-sm text-[#5d4037]">
+                            <div class="py-3">
+                                <p class="text-gray-600">這裡未來會放上老闆親自品嚐後的推薦心得，以及必點的招牌菜色介紹。敬請期待！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="food-item card-coffee rounded-xl overflow-hidden cursor-pointer" data-cat="coffee" onclick="toggleDetails(this)" style="display:none;">
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="font-bold text-[#6d4c41]">33 1/3咖啡焙煎所</div>
+                            <div class="flex gap-2">
+                                <a href="https://share.google/xGQCWjuJODJkuCPPv" target="_blank" class="text-[#5d4037] hover:scale-110 transition-transform p-1" onclick="event.stopPropagation()">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 </a>
                                 <div class="text-[#a1887f] p-1 toggle-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
